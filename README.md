@@ -11,6 +11,14 @@ $ cd kaeshi
 $ npm install
 ```
 
+## Config
+```console
+$ cat config/default.hjson
+{
+  key: somewhere/valid-ssl-key.pem
+  cert: somewhere/valid-ssl-cert.pem
+}
+```
 ## Usage
 ```console
 $ node index.js
