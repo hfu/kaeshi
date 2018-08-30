@@ -19,6 +19,7 @@
   "homepage": "https://github.com/hfu/kaeshi#readme",
   "dependencies": {
     "config": "^2.0.1",
-    "hjson": "^3.1.1"
+    "hjson": "^3.1.1",
+    "http-proxy": "^1.17.0"
   }
 }
