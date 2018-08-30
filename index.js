@@ -5,7 +5,7 @@ const proxy = require('http-proxy').createServer({
     key: fs.readFileSync(config.get('key')),
     cert: fs.readFileSync(config.get('cert'))
   },
-  target: 'https://basemaps.arcgis.com',
+  target: config.get('target'),
   secure: true
 })
 
