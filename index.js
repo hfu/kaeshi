@@ -6,7 +6,7 @@ const proxy = require('http-proxy').createServer({
     cert: fs.readFileSync(config.get('cert'))
   },
   target: config.get('target'),
-  secure: true
+  secure: config.get('secure')
 })
 
 proxy.listen(config.get('port'))
