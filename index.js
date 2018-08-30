@@ -29,6 +29,7 @@ https.createServer(
     cert: fs.readFileSync(config.get('cert'))
   },
   (req, res) => {
+    console.log(req.headers)
     proxy.web(req, res, { target: config.get('target') })
   } 
 ).listen(config.get('port'))
