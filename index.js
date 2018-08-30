@@ -8,3 +8,5 @@ const proxy = require('http-proxy').createServer({
   target: 'https://basemaps.arcgis.com',
   secure: true
 })
+
+proxy.listen(config.get('port'))

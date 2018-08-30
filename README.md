@@ -17,6 +17,7 @@ $ cat config/default.hjson
 {
   key: somewhere/valid-ssl-key.pem
   cert: somewhere/valid-ssl-cert.pem
+  port: 443
 }
 ```
 ## Usage
