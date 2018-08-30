@@ -5,6 +5,7 @@ const httpProxy = require('http-proxy')
 // const proxy = new HttpProxy({ changeOrigin: true})
 
 httpProxy.createProxyServer({
+  changeOrigin: true, 
   target: config.get('target')
 }).listen(config.get('port'))
 
