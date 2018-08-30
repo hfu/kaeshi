@@ -1,5 +1,6 @@
 const config = require('config')
 const fs = require('fs')
+const tls = require('tls')
 const https = require('https')
 const HttpProxy = require('http-proxy')
 // const proxy = new HttpProxy({ changeOrigin: true})
@@ -9,11 +10,11 @@ const proxy = new HttpProxy({
   //target: config.get('target')
 })
 
-const context = {
+const context = tls.createSecureContext({
   key: fs.readFileSync(config.get('key')),
   cert: fs.readFileSync(config.get('cert')),
   ca: fs.readFileSync(config.get('ca'))
-}
+})
 
 https.createServer(
   {
