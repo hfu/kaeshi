@@ -19,6 +19,7 @@ $ cat config/default.hjson
   secure: true
   key: somewhere/valid-ssl-key.pem
   cert: somewhere/valid-ssl-cert.pem
+  ca: somewhere/chain.pem
   port: 443
 }
 ```

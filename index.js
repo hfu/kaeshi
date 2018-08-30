@@ -9,12 +9,23 @@ const proxy = new HttpProxy({
   //target: config.get('target')
 })
 
+const context = {
+  key: fs.readFileSync(config.get('key')),
+  cert: fs.readFileSync(config.get('cert')),
+  ca: fs.readFileSync(config.get('ca'))
+}
+
 https.createServer(
   {
-    ssl: {
-      key: fs.readFileSync(config.get('key')),
-      cert: fs.readFileSync(config.get('cert'))
-    }
+    SNICallback: (domain, cb) => {
+      if (cb) {
+        cb(null, context)
+      } else {
+        return context
+      }
+    },
+    key: fs.readFileSync(config.get('key')),
+    cert: fs.readFileSync(config.get('cert'))
   },
   (req, res) => {
     proxy.web(req, res, { target: config.get('target') })
