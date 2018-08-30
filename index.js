@@ -1,9 +1,14 @@
 const config = require('config')
 const fs = require('fs')
-const https = require('https')
-const HttpProxy = require('http-proxy')
-const proxy = new HttpProxy({ changeOrigin: true})
+// const https = require('https')
+const httpProxy = require('http-proxy')
+// const proxy = new HttpProxy({ changeOrigin: true})
 
+httpProxy.createProxyServer({
+  target: config.get('target')
+}).listen(config.get('port'))
+
+/*
 https.createServer(
   {
     ssl: {
@@ -17,3 +22,4 @@ https.createServer(
     proxy.web(req, res, { target: config.get('target') })
   }
 ).listen(config.get('port'))
+*/
