@@ -13,28 +13,20 @@ const context = tls.createSecureContext({
 })
 
 proxy.on('proxyRes', (proxyRes, req, res) => {
-console.log(req.url)
-console.log(proxyRes.headers)
-console.log('---')
-return
+  if (req.url.endsWith('pbf') || req.url.endsWith('ico')) return
+  console.log(req.url)
+  console.log(proxyRes.headers)
   modifyResponse(res, proxyRes, (body) => {
+console.log('BODYBODYBODY')
     if (body) {
+console.log('*')
+      console.log(body)
       body.age = 1
     }
+    console.log(body)
+    console.log('---')
     return body
   })
-/*
-  let body = []
-  proxyRes.on('data', chunk => {
-    body.push(chunk)
-  })
-  proxyRes.on('end', () => {
-    body = Buffer.concat(body).toString()
-    console.log(req.url)
-    // console.log(body.toString())
-    // res.end()
-  })
-*/
 })
 
 https.createServer(
@@ -50,10 +42,8 @@ https.createServer(
     cert: fs.readFileSync(config.get('cert'))
   },
   (req, res) => {
-    console.log(req.url)
     proxy.web(req, res, {
-      target: config.get('target')//,
-      //selfHandleResponse: true
+      target: config.get('target')
     })
   }
 ).listen(config.get('port'))
