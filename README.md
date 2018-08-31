@@ -15,8 +15,8 @@ $ npm install
 ```console
 $ cat config/default.hjson
 {
-  target: https://somewhere.com
-  secure: true
+  target: http://somewhere.com
+  secure: false
   key: somewhere/valid-ssl-key.pem
   cert: somewhere/valid-ssl-cert.pem
   ca: somewhere/chain.pem
