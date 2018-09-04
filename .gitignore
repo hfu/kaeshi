@@ -1,4 +1,8 @@
 config
+kaeshi.stderr
+kaeshi.stdout
+package-lock.json
+serve.sh
 
 # Logs
 logs

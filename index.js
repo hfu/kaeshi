@@ -5,7 +5,6 @@ const tls = require('tls')
 const https = require('https')
 const HttpProxy = require('http-proxy')
 const proxy = new HttpProxy({ changeOrigin: true })
-//const modifyResponse = require('node-http-proxy-json')
 
 const context = tls.createSecureContext({
   key: fs.readFileSync(config.get('key')),
@@ -13,40 +12,29 @@ const context = tls.createSecureContext({
   ca: fs.readFileSync(config.get('ca'))
 })
 
-proxy.on('XXproxyRes', (proxyRes, req, res) => {
+proxy.on('proxyRes', (proxyRes, req, res) => {
   let body = []
   console.log(req.url)
-  console.log(proxyRes.headers)
   proxyRes.on('data', data => {
     body.push(data)
   })
   proxyRes.on('end', () => {
     body = Buffer.concat(body)
-    if (proxyRes.headers['content-encoding'] === 'gzip') {
-      body = zlib.gunzipSync(body)
+    if (req.url.endsWith('VectorTileServer?f=json')) {
+      let json = JSON.parse(zlib.gunzipSync(body))
+
+      body = zlib.gzipSync(JSON.stringify(json))
     }
-    if (!req.url.endsWith('pbf')) console.log(body.toString('utf-8'))
-
-
-
-    // NG body = zlib.gzipSync(body)
-    res.headers = proxyRes.headers
-    res.headers['content-length'] = Buffer.byteLength(body)
-    res.end(body)
-    console.log(res.headers)
+    res.writeHead(proxyRes.statusCode, {
+      'content-type': proxyRes.headers['content-type'] || 'application/json; charset=utf-8',
+      'content-length': Buffer.byteLength(body),
+      'content-encoding': proxyRes.headers['content-encoding'] || 'identity',
+      'access-control-allow-origin': '*'
+    })
+    res.write(body)
+    res.end()
     console.log('===')
   })
-/*
-  if (req.url.endsWith('pbf') || req.url.endsWith('ico')) return
-  const _end = res.end, _writeHead = res.writeHead, _write = res.write
-  let chunks
-  proxyRes.on('data', chunk => {
-    console.log(chunk.toString('utf-8'))
-  })
-  proxyRes.on('end', () => {
-    console.log('end')
-  })
-*/
 })
 
 https.createServer(
@@ -64,7 +52,7 @@ https.createServer(
   (req, res) => {
     proxy.web(req, res, {
       target: config.get('target'), 
-      selfHandleResponse: false
+      selfHandleResponse: true
     })
   }
 ).listen(config.get('port'))
