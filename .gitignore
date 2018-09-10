@@ -3,6 +3,9 @@ kaeshi.stderr
 kaeshi.stdout
 package-lock.json
 serve.sh
+os-road.json
+root.json
+root-mondo.json
 
 # Logs
 logs
