@@ -15,14 +15,17 @@ $ npm install
 ```console
 $ cat config/default.hjson
 {
-  target: http://somewhere.com
+  target: http://arcgis.server.example.com
   secure: false
-  key: somewhere/valid-ssl-key.pem
-  cert: somewhere/valid-ssl-cert.pem
-  ca: somewhere/chain.pem
-  port: 443
+  key: privkey.pem
+  cert: fullchain.pem
+  ca: chain.pem
+  port: 8808
+  style: root-mondo.json 
+  mbtiles: ../tile-block/mbtiles/mondo.mbtiles
 }
 ```
+
 ## Usage
 ```console
 $ node index.js
